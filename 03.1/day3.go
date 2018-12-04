@@ -26,31 +26,34 @@ func main() {
 	}
 
 	var counter int
-
+	// tracker := map[string]bool{}
 	for scanner.Scan() {
 		//need to parse out the input in to variables
 
 		firstCut := strings.Split(scanner.Text(), " ")
 		secondCut := strings.Split(firstCut[2], ":")[0]
-		// TODO: it'd be nice if I found a way to split on , then have the results be stored as int in an array
 		startingX, _ := strconv.Atoi(strings.Split(secondCut, ",")[0])
 		startingY, _ := strconv.Atoi(strings.Split(secondCut, ",")[1])
 		placeX, _ := strconv.Atoi(strings.Split(firstCut[3], "x")[0])
 		placeY, _ := strconv.Atoi(strings.Split(firstCut[3], "x")[1])
 
-		//nested for loop starting at a startingX and startingY, increment the array index placeX times and then move to the next line and repeat placeY times.
+		//nested for loop starting at a grid index startingX and startingY, move placeX times, incrementing the index and then move to the next line and repeat placeY times.
 		for i := 0; i < placeY; i++ {
 			for j := 0; j < placeX; j++ {
+				//if startingX+j, startingY+i not in tracker
+				//if grid[startingX+j][startingY+i] == 1
 				grid[startingX+j][startingY+i]++
+				//then place in tracker
+				//else increment
 			}
 		}
-		//if the index is > 1, increment a counter
-		//TODO Find a way to do this during the loop
 
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	//return or print len(tracker)
+
 	//loop through the grid, counting how many are greater than 1
 	for i, row := range grid {
 		for j := range row {

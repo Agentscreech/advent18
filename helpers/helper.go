@@ -2,27 +2,22 @@ package helper
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
-	"strconv"
 )
 
-//ReadFile reads a file
-func ReadFile() {
-	file, err := os.Open("day1.txt")
+//ReadFile reads a file and returns a scanner to iterate over
+func ReadFile(location string) *bufio.Scanner {
+	file, err := os.Open(location)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		i, _ := strconv.Atoi(scanner.Text())
-		fmt.Printf("%d", i)
-	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	return scanner
 }
