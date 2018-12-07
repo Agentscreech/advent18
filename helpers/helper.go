@@ -7,17 +7,19 @@ import (
 )
 
 //ReadFile reads a file and returns a scanner to iterate over
-func ReadFile(location string) *bufio.Scanner {
+func ReadFile(location string) (*bufio.Scanner, error) {
 	file, err := os.Open(location)
 	if err != nil {
 		log.Fatal(err)
+		return nil, err
 	}
-	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
+		return nil, err
 	}
-	return scanner
+	defer file.Close()
+	return scanner, nil
 }
