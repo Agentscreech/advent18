@@ -22,9 +22,11 @@ type sleepTime struct {
 }
 
 type guard struct {
-	id         string
-	sleepRange []sleepTime
-	sleepTotal int
+	id          string
+	sleepRange  []sleepTime
+	sleepTotal  int
+	topMin      int
+	topMinCount int
 }
 
 func main() {
@@ -101,6 +103,36 @@ func main() {
 
 	//return guard id * most min slept.
 	fmt.Println("SleepChamp id: ", sleepChamp.id, " TopMin slept: ", topMin)
+
+	//part 2
+
+	//Of all guards, which guard is most frequently asleep on the same minute?
+	var consistentGuard guard
+	for i, g := range guards {
+		minTracker := make(map[int]int)
+		for _, sleepMin := range g.sleepRange {
+			for j := sleepMin.start; j < sleepMin.end; j++ {
+				minTracker[j]++
+			}
+		}
+		var topDuration int
+		var topMin int
+		for k, min := range minTracker {
+			if min > topDuration {
+				topDuration = min
+				topMin = k
+			}
+
+		}
+		g.topMin = topMin
+		g.topMinCount = topDuration
+		if g.topMinCount > consistentGuard.topMinCount {
+			consistentGuard = g
+		}
+		guards[i] = g
+
+	}
+	fmt.Println("Most consistent guard,", consistentGuard.id, " They sleep at", consistentGuard.topMin, "most often")
 
 }
 
