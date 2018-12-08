@@ -23,30 +23,26 @@ func main() {
 
 	alphabet := "abcdefghijklmnopqrstuvwxyz"
 
-	badMap := make(map[string]bool)
-	for _, L := range alphabet {
-		l := string(L)
-		Aa := strings.ToUpper(l) + l
-		aA := l + strings.ToUpper(l)
-		badMap[Aa] = true
-		badMap[aA] = true
+	badMap := make([]string, 0)
+
+	for _, char := range alphabet {
+		badMap = append(
+			badMap,
+			strings.ToUpper(string(char))+string(char),
+			string(char)+strings.ToUpper(string(char)),
+		)
 	}
-	didReplace := true
+
 	for {
-		if didReplace {
-			for i := range str {
-				if i != len(str)-1 {
-					if _, found := badMap[str[i:i+2]]; found {
-						str = strings.Replace(str, str[i:i+2], "", -1)
-						break
-					}
-				} else {
-					didReplace = false
-
-				}
+		didReplace := false
+		for _, letters := range badMap {
+			replaced := strings.Replace(str, letters, "", -1)
+			if str != replaced {
+				didReplace = true
+				str = replaced
 			}
-
-		} else {
+		}
+		if !didReplace {
 			break
 		}
 	}
